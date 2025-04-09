@@ -5,8 +5,8 @@ import HelloWorld from './components/HelloWorld.vue'
 <template>
   <div>
     <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/"></RouterLink>
+      <RouterLink to="/about"></RouterLink>
     </nav>
     <router-view /> <!-- 여기에 라우트 컴포넌트가 출력됨 -->
   </div>

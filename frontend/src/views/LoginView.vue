@@ -1,135 +1,115 @@
-
-
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous"></link>
-
-
-
 <template>
+  <div class="min-h-screen flex items-center justify-center bg-white px-4">
+    <div
+      class="flex flex-col md:flex-row items-center justify-center gap-20 max-w-6xl w-full"
+    >
+      <!-- 로고 영역 -->
+      <div class="flex justify-center md:justify-end w-full md:w-1/2">
+        <img
+          src="../assets/TASKCO.png"
+          alt="Taskco Logo"
+          class="w-64 md:w-80 object-contain"
+        />
+      </div>
 
-	<div class="container d-flex align-items-center justify-content-center"
-		style="min-height: 100vh;">
-		<div class="row justify-content-between align-items-center"
-			style="width: 100%; max-width: 1200px;">
+      <!-- 로그인 폼 -->
+      <div
+        class="w-full md:w-1/2 max-w-md bg-white p-10 rounded-xl shadow-lg border border-gray-200"
+      >
+        <h1 class="text-3xl font-bold text-center text-gray-700 mb-8">
+          로그인
+        </h1>
 
+        <form class="space-y-5" @submit.prevent="handleLogin">
+          <div class="relative">
+            <input
+              type="text"
+              v-model="email"
+              id="email"
+              class="peer input-floating"
+              placeholder="이메일을 입력하세요"
+            />
+            <label for="email" class="label-floating">Email</label>
+          </div>
 
-			<!-- 로그인 폼 섹션 -->
-			<div class="col-md-6">
-				<div class="screen">
-					<div class="screen__content mt-3">
-						<form class="login" action="login" method="post">
-							<!-- 이메일 -->
-							<div class="form-floating mb-2">
-								<input type="text" name="email" id="email" class="form-control"
-									placeholder="name@example.com"><label for="email">Email</label>
-							</div>
+          <div class="relative">
+            <input
+              type="password"
+              v-model="password"
+              id="password"
+              class="peer input-floating"
+              placeholder="비밀번호를 입력하세요"
+            />
+            <label for="password" class="label-floating">Password</label>
+          </div>
 
-							<div class="form-floating mb-4">
-								<input type="password" name="pw" id="password"
-									class="form-control" placeholder="PassWord"><label
-									for="password">Password</label>
-							</div>
+          <button
+            type="submit"
+            class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors"
+          >
+            로그인
+          </button>
+        </form>
 
-							<!-- 로그인 버튼 -->
-							<button type="submit" class="btn btn-primary">로그인</button>
-						</form>
-
-						<!-- 회원가입 버튼 -->
-						<form class="login" action="goJoin" method="post">
-							<button type="submit" class="btn btn-secondary mt-3">회원가입</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
+        <form class="mt-4" action="goJoin" method="post">
+          <button
+            type="submit"
+            
+            class="w-full bg-purple-500 text-white py-2 rounded hover:bg-gray-400 transition-colors"
+          >
+            회원가입
+          </button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
 </template>
 
-<style scoped>
-body {
-   display: grid;
-   grid-template-columns : 1fr 1fr;
-	place-items: center;
-   width: 1800px;
-   overflow-x : hidden;
-   overflow-y : hidden;
-   margin: 0;
+<script setup lang="ts">
+import {ref} from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user' // pinia 전역 상태관리. 리액트의 리덕스 역할
+ 
+const email = ref<string>('') // email이 문자열 이라는 타입을 명시. vue의 ref는 .value를 통해 내부값 접근
+const password = ref<string>('') // password.value는 string 타입
+const router = useRouter();
+
+const handleLogin = async() : Promise<void> => { //Promise는 리턴타입을 지정. void는 결과리턴 없음.
+
+   try{
+      const res = await axios.post('http://localhost:8089/api/login', {
+         email:email.value,
+         pw: password.value,
+      },
+      {
+         withCredentials: true // 쿠키 전송 허용
+
+      } 
+
+   )
+
+      console.log("로그인 성공")
+      const userStore = useUserStore() //전역 상태 스토어
+      userStore.setUser({
+         email : res.data.email,
+         name: res.data.name
+      })
+
+      router.push('/dashboard')
+
+   }catch(err : any){ //에러 타입도 ts는 지정함. 
+      console.error('로그인 실패:', err.response?.data || "로그인 실패")
+
+   }
+
 }
 
-.container {
-   max-width: auto; /* 전체 컨테이너 최대 너비 */
-   width: 100%;
-   padding: 20px;
-   display: flex;
-   justify-content: space-between; /* 로고와 폼 간 거리 유지 */
-   align-items: center;
-}
-
-.project-logo img {
-   max-width: 100%; /* 로고 크기 조정 */
-   height: auto;
-   display: block;
-   margin: 0 auto;
-   position: relative; /* 위치 이동을 가능하게 설정 */
-   left: 150px; /* 오른쪽으로 150px 이동 */
-}
+</script>
 
 
 
-.btn-primary {
-   margin-top: 150px;
-   background-color: #5b9bd5;
-   color: white;
-   border: none;
-   padding: 10px 20px;
-   cursor: pointer;
-   font-size: 16px;
-   border-radius: 5px;
-   width: 100%; /* 버튼도 폼 너비에 맞춤 */
-}
-
-.btn-primary:hover {
-   background-color: #4a8cc7;
-}
-
-.btn-secondary {
-   
-   background-color: #b0c4de;
-   color: white;
-   border: none;
-   padding: 10px 20px;
-   cursor: pointer;
-   font-size: 16px;
-   border-radius: 5px;
-   width: 100%; /* 버튼도 폼 너비에 맞춤 */
-}
-
-.btn-secondary:hover {
-   background-color: #98a6c8;
-}
-
-.screen {
-   background-color: white;
-   padding: 30px;
-   border-radius: 8px;
-   box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.3);
-   max-width: 600px;
-   width: 400px;
-   height: 500px;
-   position: relative; /* 위치 이동을 가능하게 설정 */
-   left: 100px; /* 오른쪽으로 150px 이동 */
-}
-
-.screen__content {
-   z-index: 1;
-   position: relative;
-   width: 100%;
-   text-align: left;
-}
-
+<style>
 
 </style>

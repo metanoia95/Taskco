@@ -24,16 +24,18 @@ public class UserRestController {
 	@RequestMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user, HttpSession session) {
 
-
+		System.out.println(user);
 		User result = mapper.login(user);
 
 		if (result == null) {
+			System.out.println("로그인 실패");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 								 .body("아이디 또는 비밀번호가 틀렸습니다.");
 			
 		} 
 		session.setAttribute("user", result);
-		return ResponseEntity.ok("로그인 성공");
+		System.out.println("로그인 성공");
+		return ResponseEntity.ok(result);
 		
 
 	}

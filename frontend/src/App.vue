@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+
 </script>
 
 <template>
@@ -7,6 +7,7 @@ import HelloWorld from './components/HelloWorld.vue'
     <nav>
       <RouterLink to="/"></RouterLink>
       <RouterLink to="/about"></RouterLink>
+      <RouterLink to="/dashboard"></RouterLink>
     </nav>
     <router-view /> <!-- 여기에 라우트 컴포넌트가 출력됨 -->
   </div>

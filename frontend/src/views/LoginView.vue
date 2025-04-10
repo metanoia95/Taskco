@@ -89,15 +89,18 @@ const handleLogin = async() : Promise<void> => { //Promise는 리턴타입을 �
       } 
 
    )
-
-      console.log("로그인 성공")
+      console.log(res)
+      console.log("로그인 성공", res.data)
       const userStore = useUserStore() //전역 상태 스토어
+      console.log('셋유저')
       userStore.setUser({
          email : res.data.email,
          name: res.data.name
       })
 
       router.push('/dashboard')
+        .then(()=> console.log('라우터 이동 성공'))
+        .catch(err => console.log('라우터 이동 실패'))
 
    }catch(err : any){ //에러 타입도 ts는 지정함. 
       console.error('로그인 실패:', err.response?.data || "로그인 실패")

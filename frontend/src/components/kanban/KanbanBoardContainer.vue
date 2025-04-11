@@ -20,7 +20,8 @@ onMounted(() => {
 <template>
   <section class="working-list">
     <div class="title mb-3">
-      <div class="kanban-header">
+      <div class="kanban-header flex flex-row justify-between p-2">
+        <h1 class="projectName">프로젝트 : Taskco *api 연결</h1>
         <form id="todo-form">
           <button
             type="button"
@@ -33,7 +34,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <KanbanBoard />
+    <KanbanBoard class="h-[450px]"/>
     <!-- 칸반 수정 모달 창-->
 
     <!-- 모달창 종료 -->
@@ -42,10 +43,7 @@ onMounted(() => {
 
 <style>
 .board {
-  width: auto;
-  height: 450px;
   overflow: scroll;
-
   background-color: aliceblue;
 }
 

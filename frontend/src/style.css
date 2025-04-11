@@ -16,40 +16,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+
+html{
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
-a:hover {
-  color: #535bf2;
-}
+
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
   overflow-x: hidden;
+  height: 100%;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-
-.card {
-  padding: 2em;
-}
 
 #app {
   width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  height: 100%;
+ 
 }
 
 @media (prefers-color-scheme: light) {
@@ -63,7 +48,7 @@ h1 {
 
 }
 
-
+/* 커스텀 클래스. main.ts에 반드시 css파일이 임포트 되어야함.  */
 @layer components {
   .input-floating {
     @apply  w-full px-4 pt-5 pb-2 border border-gray-300 rounded-md placeholder-transparent focus:outline-none focus:ring-2 focus:ring-blue-500;
@@ -71,6 +56,16 @@ h1 {
 
   .label-floating {
     @apply absolute left-4 top-2 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-1 peer-focus:text-sm;
+  }
+
+  .btn-blue {
+    @apply bg-blue-300 text-white p-1 m-1  text-xs
+
+  }
+
+  .name-tag{
+    @apply bg-purple-300 text-white p-1 m-1  text-xs
+
   }
 }
 

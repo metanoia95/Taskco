@@ -5,13 +5,7 @@
     { "path": "./tsconfig.node.json" }
   ],
 
-  // 루트 위치를 @로 고정.
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  }
+  
 
 
 

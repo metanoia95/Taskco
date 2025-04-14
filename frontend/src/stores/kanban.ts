@@ -86,7 +86,7 @@ export const useKanbanStore = defineStore('kanban', {
             if(column){
                 const newCard: Card = {
                     id:Date.now(),
-                    text: '',
+                    text: '새 업무',
                     assigners:[],
                 }
                 column.cards.push(newCard)

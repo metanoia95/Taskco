@@ -26,7 +26,7 @@ html{
 
 body {
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: auto;
   height: 100%;
 }
 
@@ -67,5 +67,14 @@ body {
     @apply bg-purple-300 text-white p-1 m-1  text-xs
 
   }
+
+  .modal-background{
+    @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50
+  }
+
+  .modal-window{
+    @apply bg-white p-6 rounded-lg w-full max-w-lg shadow-lg max-h-[80vh] overflow-y-auto
+  }
+  
 }
 

@@ -8,11 +8,11 @@
 <template>
     
     
-    <main class="main-content h-full">
+    <main class="relative main-content h-full max-w-full">
         <!-- 간트차트 -->
 
         <!-- 칸반보드  -->
-        <KanbanBoardContainer />
+        <KanbanBoardContainer class="absolute max-w-full min-w-full"/>
         
 			
 	</main>

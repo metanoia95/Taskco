@@ -34,7 +34,8 @@ onMounted(() => {
       </div>
     </div>
 
-    <KanbanBoard class="h-[450px]"/>
+    
+    <KanbanBoard class="overflow-auto max-h-[450px] max-w-full min-w-full"/> 
     <!-- 칸반 수정 모달 창-->
 
     <!-- 모달창 종료 -->

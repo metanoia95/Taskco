@@ -18,7 +18,7 @@ import ProjectList from "../sidebar/ProjectList.vue";
     <div class="bg-white">
       <SearchBar class="mb-2"></SearchBar>
 
-      <SideUserInfo></SideUserInfo>
+      <SideUserInfo ></SideUserInfo>
     </div>
   </div>
 </template>

@@ -39,6 +39,15 @@ export async function saveBlogPost (
 
 }
 
+export async function updateBlogPost (
+    data : SaveBlogPostReq
+
+): Promise<AxiosResponse> { 
+
+  return await api.put('api/blog/posts', data);
+
+}
+
 export async function deletePost (
     id : number
 ) : Promise<AxiosResponse>{

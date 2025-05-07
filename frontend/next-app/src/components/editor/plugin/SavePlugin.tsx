@@ -3,7 +3,7 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useRouter } from "next/navigation";
 import { $generateHtmlFromNodes } from "@lexical/html"; // editorState를 html로 변환해서 저장
-import { saveBlogPost, SaveBlogPostReq } from "@/lib/services/blogService";
+import { saveBlogPost, SaveBlogPostReq, updateBlogPost } from "@/lib/services/blogService";
 
 export const SavePlugin = ({
   id,
@@ -33,7 +33,13 @@ export const SavePlugin = ({
       console.log("PostSaveData : ", dto);
       // id가 있는 경우(수정)
       if (dto.id) {
-        console.log("아이디 없어서 저장 안함");
+        console.log("update go")
+        console.log(dto.title)
+        const res = await updateBlogPost(dto);
+        if (res.status === 200) {
+            router.push(`/blog/${dto.id}`);
+          }
+
       } else {
         // id가 없는 경우
         const res = await saveBlogPost(dto);

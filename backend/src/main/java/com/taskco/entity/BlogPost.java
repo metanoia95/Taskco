@@ -18,9 +18,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +40,7 @@ public class BlogPost {
 	@JdbcTypeCode(SqlTypes.JSON)
 	private String page_json; 
 	
+    @Column(columnDefinition = "TEXT")
 	private String page_html;
 	
 	@CreationTimestamp

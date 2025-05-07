@@ -2,12 +2,47 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import InputField from "@/components/InputField";
+import InputField from "@/components/common/InputField";
+import { signUp } from "@/lib/services/authService";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  
+    
+  const router = useRouter();
+
+  // 회원가입 핸들러
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(email, password, name)
+  
+    try{
+      const {accessToken, refreshToken } = await signUp({email, password, name })
+      // 성공 시 자동으로 로그인 되게 설정
+      // 성공했으면 토큰 저장
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      router.push("/dashboard")
+
+    }catch(err:unknown){
+      if(axios.isAxiosError(err) &&err.response){
+        alert('회원가입 실패 : ' + err.response.data);
+      }else{
+        alert('로그인 중 알 수 없는 에러가 발생했습니다.');
+
+      }
+
+
+    }
+
+
+  }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
@@ -25,7 +60,7 @@ export default function SignUpPage() {
             <h1 className="text-3xl font-bold text-center text-gray-700 mb-8">
                 회원가입
             </h1>
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSignUp}>
             <InputField
               id="email"
               label="이메일"

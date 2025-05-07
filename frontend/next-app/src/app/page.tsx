@@ -1,13 +1,54 @@
 "use client"; // 로그인 페이지는 통상 CSR로 처리함.
 
 import Image from "next/image";
-import { useState } from "react";
-import InputField from "@/components/InputField";
+import { useEffect, useState } from "react";
+import InputField from "@/components/common/InputField";
 import Link from "next/link";
+
+import { login } from "@/lib/services/authService";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    console.log('Current password value:', password);
+  }, [password]);
+
+  // 라우터. CSR페이지이기 때문에 라우터 처리 해줘야함.
+  const router = useRouter();
+
+
+  // 로그인 핸들러
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault(); // 새로고침 방지
+
+    console.log(email, password)
+
+    try {
+      const { accessToken, refreshToken } = await login({ email, password });
+
+      console.log("로그인 요청")
+      // 성공했으면 토큰 저장
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+
+      // 로그인 후 이동
+      router.push("/dashboard");
+
+    } catch (err : unknown) {
+      console.error(err);
+      if(axios.isAxiosError(err) &&err.response){
+        alert('로그인 실패 : ' + err.response.data);
+      }else{
+        alert('로그인 중 알 수 없는 에러가 발생했습니다.');
+
+      }
+
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
@@ -26,7 +67,7 @@ export default function LoginPage() {
             로그인
           </h1>
 
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleLogin}>
             <InputField
               id="email"
               label="이메일"
@@ -42,7 +83,10 @@ export default function LoginPage() {
               type="password"
               value={password}
               placeholder="패스워드를 입력하세요"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                console.log('Password input changed:', e.target.value);
+                setPassword(e.target.value);
+              }}
               required
             />
             <button
@@ -55,8 +99,12 @@ export default function LoginPage() {
 
           <form className="mt-4" action="goJoin" method="post">
             {/* 클래스에 block 추가해줘야함. */}
-            <Link href='/signup' className="block w-full text-center bg-purple-500 text-white py-2 rounded hover:bg-gray-400 transition-colors">회원가입</Link>
-           
+            <Link
+              href="/signup"
+              className="block w-full text-center bg-purple-500 text-white py-2 rounded hover:bg-gray-400 transition-colors"
+            >
+              회원가입
+            </Link>
           </form>
         </div>
       </div>
